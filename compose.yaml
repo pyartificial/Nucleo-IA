@@ -1,0 +1,41 @@
+services:
+  nucleo-ia:
+    build:
+      context: .
+    image: nucleo-ia:local
+    restart: unless-stopped
+    init: true
+    environment:
+      AUTH_ENABLED: "true"
+      PERFIL_USO: profesional
+      PROXY_HOST: 0.0.0.0
+      PROXY_PORT: "8080"
+      NUCLEO_API_KEY: ${NUCLEO_API_KEY:?Set NUCLEO_API_KEY in the Compose environment}
+      NUCLEO_ADMIN_KEY: ${NUCLEO_ADMIN_KEY:?Set NUCLEO_ADMIN_KEY in the Compose environment}
+      NUCLEO_SCIM_BEARER_TOKEN: ${NUCLEO_SCIM_BEARER_TOKEN:-}
+      NUCLEO_OIDC_ISSUER: ${NUCLEO_OIDC_ISSUER:-}
+      NUCLEO_OIDC_CLIENT_ID: ${NUCLEO_OIDC_CLIENT_ID:-}
+      NUCLEO_OIDC_CLIENT_SECRET: ${NUCLEO_OIDC_CLIENT_SECRET:-}
+      NUCLEO_OIDC_REDIRECT_URI: ${NUCLEO_OIDC_REDIRECT_URI:-}
+    ports:
+      - "127.0.0.1:${NUCLEO_PUBLISHED_PORT:-8080}:8080"
+    volumes:
+      - nucleo-data:/data
+      - nucleo-state:/state
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m,mode=1777
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/healthz', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
+
+volumes:
+  nucleo-data:
+  nucleo-state:

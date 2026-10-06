@@ -1,0 +1,25 @@
+name: Sugerir una mejora
+description: Proponé una función o un cambio para Núcleo IA.
+title: "[Mejora]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Qué necesidad resolvería
+      description: Describí la tarea o dificultad que encontrás.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Cómo te gustaría resolverla
+      description: Contá tu idea y, si sirve, un ejemplo de uso.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas que probaste
+    validations:
+      required: false

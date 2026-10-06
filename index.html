@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Núcleo IA conecta aplicaciones con proveedores de inteligencia artificial y modelos de Ollama desde una API local compatible con OpenAI.">
+  <meta name="theme-color" content="#101827">
+  <title>Núcleo IA — una puerta local para tus modelos</title>
+  <style>
+    :root { color-scheme: dark; --bg:#101827; --panel:#172338; --text:#edf3ff; --muted:#b6c4d9; --accent:#7ce0c3; --line:#31425c; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:radial-gradient(ellipse at 80% 0,#213956 0,transparent 42%),var(--bg); color:var(--text); font:16px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif; }
+    a { color:var(--accent); }
+    .wrap { width:min(1040px,calc(100% - 36px)); margin:auto; }
+    header { padding:72px 0 52px; }
+    .tag { color:var(--accent); font-weight:700; letter-spacing:.12em; text-transform:uppercase; font-size:.8rem; }
+    h1 { font-size:clamp(2.5rem,8vw,5rem); line-height:1.04; margin:.35em 0; letter-spacing:-.045em; }
+    h2 { font-size:1.6rem; margin:0 0 12px; }
+    p { color:var(--muted); margin:.6em 0 1em; }
+    .lead { max-width:720px; font-size:clamp(1.1rem,2.4vw,1.35rem); }
+    .buttons { display:flex; flex-wrap:wrap; gap:12px; margin-top:26px; }
+    .button { display:inline-block; background:var(--accent); color:#09221d; padding:11px 18px; border-radius:9px; font-weight:750; text-decoration:none; }
+    .button.secondary { background:transparent; color:var(--text); border:1px solid var(--line); }
+    main { padding-bottom:56px; }
+    section { margin:38px 0; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(225px,1fr)); gap:14px; margin:18px 0; }
+    article, .notice { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:20px; }
+    article p { margin-bottom:0; }
+    code { color:#d8ffef; background:#0c1522; padding:.13em .38em; border-radius:5px; overflow-wrap:anywhere; }
+    .steps { padding-left:1.3em; color:var(--muted); }
+    .steps li { padding:.22em 0; }
+    footer { border-top:1px solid var(--line); padding:24px 0 38px; color:var(--muted); font-size:.94rem; }
+    footer p { margin:.35em 0; }
+    @media (prefers-reduced-motion:no-preference) { .button { transition:transform .15s ease,filter .15s ease; } .button:hover { transform:translateY(-2px); filter:brightness(1.05); } }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <div class="tag">Proyecto abierto · Windows · Linux · WSL</div>
+    <h1>Núcleo IA</h1>
+    <p class="lead">Una puerta local para conectar tus aplicaciones con distintos proveedores de inteligencia artificial y modelos de Ollama.</p>
+    <p>Centralizá las conexiones en tu computadora y usá una API compatible con el formato de OpenAI. Elegís las cuentas y los modelos disponibles; Núcleo IA puede rotar entre opciones configuradas y actualizar catálogos y rankings desde tu instalación.</p>
+    <p>La compatibilidad con OpenAI describe el formato de la API. El proveedor que procesa cada solicitud depende de la cuenta y el modelo que configures.</p>
+    <div class="buttons">
+      <a class="button" id="repo-link" href="./README.md">Ver el repositorio</a>
+      <a class="button secondary" href="./#instalacion">Cómo empezar</a>
+    </div>
+  </header>
+  <main class="wrap">
+    <section aria-labelledby="funciones">
+      <h2 id="funciones">Qué podés hacer</h2>
+      <div class="grid">
+        <article><h2>Una API local</h2><p>Conectá clientes compatibles a <code>http://127.0.0.1:8080/v1</code>.</p></article>
+        <article><h2>Varias cuentas</h2><p>Administrá tus proveedores en un solo lugar y alterná entre cuentas que hayas configurado.</p></article>
+        <article><h2>Local o en la nube</h2><p>Combiná modelos locales de Ollama con servicios en la nube, según tu configuración.</p></article>
+        <article><h2>Más capacidades</h2><p>Chat, visión, voz, transcripción, imágenes, video y embeddings dependen de las integraciones disponibles.</p></article>
+      </div>
+      <aside class="notice"><strong>Tené en cuenta:</strong> no todas las funciones están disponibles en todos los servicios o modelos. La generación de música es una simulación. Consultá <code>/v1/capabilities</code> en tu instalación y probá cada integración antes de depender de ella.</aside>
+    </section>
+    <section id="instalacion" aria-labelledby="inicio">
+      <h2 id="inicio">Empezar</h2>
+      <ol class="steps">
+        <li>Descargá el repositorio y extraé sus archivos en una carpeta normal.</li>
+        <li>En Windows, ejecutá <code>instalar_nucleo_ia.bat</code>; en Linux o WSL, ejecutá <code>bash instalar_nucleo_ia.sh</code>.</li>
+        <li>Abrí Mis servicios y agregá al menos una cuenta de un proveedor o un servicio local.</li>
+        <li>Iniciá Núcleo IA con <code>iniciar_todo.bat</code> en Windows o <code>bash iniciar_todo.sh</code> en Linux o WSL.</li>
+        <li>Comprobá el estado en <code>http://127.0.0.1:8080/healthz</code>.</li>
+      </ol>
+      <p>El <a href="./informacion/MANUAL_USUARIO.pdf">manual completo para usuarios</a> explica cada paso. También hay guías para principiantes y documentación técnica en el repositorio.</p>
+    </section>
+    <section aria-labelledby="privacidad">
+      <h2 id="privacidad">Tus claves y tu privacidad</h2>
+      <p>Guardá las claves API únicamente en tu instalación local. No las subas a GitHub ni las pegues en capturas, registros o incidencias. Los proveedores en la nube reciben las solicitudes que les envíes y pueden aplicar sus propios costos, límites y condiciones.</p>
+      <p>El servidor está limitado a tu computadora de manera predeterminada. Para acceder desde otra computadora hace falta configurar red y autenticación de forma segura. No lo expongas directamente a Internet.</p>
+    </section>
+  </main>
+  <footer class="wrap">
+    <p>Creado y mantenido por <strong>Cristian Quiroga</strong>, Malargüe, Mendoza, Argentina.</p>
+    <p>Contacto: <a href="mailto:pyartificial@gmail.com">pyartificial@gmail.com</a> · Licencia: <a href="./LICENSE">GNU AGPL v3 o posterior</a>.</p>
+  </footer>
+  <script>
+    const repoLink = document.getElementById("repo-link");
+    const host = window.location.hostname.toLowerCase();
+    if (host.endsWith(".github.io")) {
+      const owner = host.slice(0, -".github.io".length);
+      const pathParts = window.location.pathname.split("/").filter(Boolean);
+      const repository = pathParts[0] || `${owner}.github.io`;
+      repoLink.href = `https://github.com/${encodeURIComponent(owner)}/${encodeURIComponent(repository)}`;
+    }
+  </script>
+</body>
+</html>

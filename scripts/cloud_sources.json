@@ -1,0 +1,20 @@
+{
+  "models": [
+    "glm-5.2:cloud",
+    "glm-5.1:cloud",
+    "kimi-k2.7-code:cloud",
+    "kimi-k2.6:cloud",
+    "kimi-k2.5:cloud",
+    "nemotron-3-ultra:cloud",
+    "gpt-oss:20b-cloud",
+    "nemotron-3-super:cloud",
+    "deepseek-v4-flash:cloud",
+    "deepseek-v4-pro:cloud",
+    "minimax-m3:cloud",
+    "minimax-m2.7:cloud",
+    "minimax-m2.5:cloud",
+    "gemma4:cloud",
+    "qwen3.5:cloud",
+    "gpt-oss:120b-cloud"
+  ]
+}

@@ -1,0 +1,7 @@
+# Combinación validada por la suite del proyecto. Actualizarla como conjunto.
+fastapi==0.141.1
+edge-tts>=7.0.0
+uvicorn==0.52.4
+httpx==0.28.1
+pydantic==2.13.5
+python-multipart==0.0.32

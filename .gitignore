@@ -1,0 +1,48 @@
+# Entornos virtuales y dependencias
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Instancias locales y datos pesados
+ollama_instances/
+
+# Estados, cachés y bases de datos locales
+state/
+*.log
+*.sqlite
+*.db
+*.tmp.*
+*.bak
+*.old
+
+# Archivos de configuración sensibles con API Keys (¡NUNCA SUBIR!)
+.env
+.env.*
+!.env.example
+granja.env
+cuentas.json
+# Plantilla pública y sin secretos requerida por el kit de Ollama Farm.
+!ollama-farm-kit/farm.env
+
+# Archivos generados temporalmente
+informacion/build-latex/
+*.aux
+*.out
+*.zip
+
+# Credenciales y exportaciones privadas — nunca compartir
+NO_COMPARTIR_CREDENCIALES/
+
+# Secretos y estado adicional que pueda generarse localmente
+*.nia-backup
+*.nia-keys
+*.pem
+*.key
+*.token
+state/
+logs/
+PUBLICACION_GITHUB/
+
+# Archivos generados de diagnóstico local
+informacion/build-latex/

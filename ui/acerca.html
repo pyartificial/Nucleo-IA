@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f6f7f4">
+  <title>Acerca de — Núcleo IA</title>
+  <link rel="stylesheet" href="/shell.css">
+  <style>
+    .about-card{max-width:760px;background:#fff;border:1px solid #dce3da;border-radius:16px;padding:clamp(24px,5vw,48px);box-shadow:0 10px 30px #21372b0a}
+    .about-card h2{margin:0 0 20px;font-size:25px}
+    .about-card dl{display:grid;grid-template-columns:minmax(110px,150px) 1fr;gap:14px 20px;margin:0}
+    .about-card dt{color:#647369;font-weight:650}
+    .about-card dd{margin:0}
+    .about-card a{color:#285e43;text-underline-offset:3px}
+    .about-note{margin-top:26px;color:#647369;font-size:14px}
+    @media(max-width:520px){.about-card dl{grid-template-columns:1fr;gap:3px}.about-card dd{margin-bottom:12px}}
+  </style>
+</head>
+<body>
+  <header><a href="/control" class="brand"><span class="brand-mark">N</span><span class="brand-text">NÚCLEO <b>IA</b></span></a><span class="local-badge"><span class="dot"></span> En tu computadora</span></header>
+  <main>
+    <nav aria-label="Secciones del Centro de control">
+      <a href="/control">Resumen</a><a href="/mis-servicios">Servicios y cuentas</a><a href="/rankings">Rankings</a><a href="/trasladar-cuentas">Trasladar cuentas</a><a class="active" href="/acerca" aria-current="page">Acerca de</a>
+    </nav>
+    <div class="eyebrow">EL PROYECTO</div>
+    <h1>Acerca de Núcleo IA</h1>
+    <p class="lead">Información sobre quién creó y mantiene este proyecto, y cómo ponerse en contacto.</p>
+    <section class="about-card" aria-labelledby="about-heading">
+      <h2 id="about-heading">Autor y contacto</h2>
+      <dl>
+        <dt>Autor y responsable</dt><dd>Cristian Quiroga</dd>
+        <dt>Ubicación</dt><dd>Malargüe, Mendoza, Argentina</dd>
+        <dt>Contacto</dt><dd><a href="mailto:pyartificial@gmail.com">pyartificial@gmail.com</a></dd>
+      </dl>
+      <p class="about-note">Núcleo IA es un proyecto de desarrollo independiente. Para informar un problema, incluí qué estabas haciendo y el mensaje de error; nunca envíes claves API ni contraseñas.</p>
+    </section>
+  </main>
+</body>
+</html>

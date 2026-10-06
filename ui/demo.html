@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Núcleo IA — Demo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 20px; background: #0b1020; color: #e8eefc; }
+    .card { max-width: 900px; margin: 0 auto; background: #121a33; border: 1px solid #263255; border-radius: 14px; padding: 16px; }
+    h1 { margin: 0 0 12px; font-size: 22px; }
+    label { display:block; margin: 10px 0 6px; color: #b7c4ea; }
+    textarea, input { width: 100%; box-sizing: border-box; background: #0c1327; color: #e8eefc; border: 1px solid #32426d; border-radius: 10px; padding: 12px; }
+    textarea { min-height: 130px; resize: vertical; }
+    .row { display: grid; grid-template-columns: 1fr 1fr 160px 180px; gap: 10px; align-items: end; }
+    .actions { display:flex; gap: 10px; align-items:center; margin-top: 12px; flex-wrap: wrap; }
+    button { background: #4c7dff; color: white; border: 0; border-radius: 10px; padding: 12px 16px; font-weight: 700; cursor: pointer; }
+    button:disabled { opacity: .6; cursor: wait; }
+    .pill { background: #1a2447; border: 1px solid #33406b; border-radius: 999px; padding: 6px 10px; font-size: 13px; color: #cbd7ff; }
+    .panel { margin-top: 14px; background: #0c1327; border: 1px solid #32426d; border-radius: 12px; padding: 12px; white-space: pre-wrap; word-break: break-word; }
+    .title { color: #9fb4ff; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+    .error { color: #ffb3b3; }
+    .ok { color: #b8ffcf; }
+    .small { font-size: 13px; color: #aeb9d8; }
+    .attempts li { margin: 4px 0; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Núcleo IA — Demo</h1>
+    <div class="small">Prueba simple con respuesta, errores, proveedor, modelo y tiempo.</div>
+
+    <label for="prompt">Pregunta</label>
+    <textarea id="prompt" placeholder="Escribí tu pregunta..."></textarea>
+
+    <div class="row">
+      <div>
+        <label for="model">Modelo</label>
+        <input id="model" value="auto" />
+      </div>
+      <div>
+        <label for="route">Ruta opcional</label>
+        <input id="route" value="auto" placeholder="auto | cheap | reasoning | tools | vision" />
+      </div>
+      <div>
+        <label>&nbsp;</label>
+        <label class="pill"><input id="stream" type="checkbox" checked /> streaming</label>
+      </div>
+      <div>
+        <label>&nbsp;</label>
+        <button id="ask">Preguntar</button>
+      </div>
+    </div>
+
+    <div class="actions">
+      <span class="pill" id="status">Listo</span>
+      <span class="pill" id="meta">—</span>
+      <span class="pill" id="timer">0 ms</span>
+    </div>
+
+    <div class="panel">
+      <div class="title">Respuesta</div>
+      <div id="reply"></div>
+    </div>
+
+    <div class="panel">
+      <div class="title">Error / estado</div>
+      <div id="error" class="error"></div>
+    </div>
+
+    <div class="panel">
+      <div class="title">Intentos</div>
+      <ul id="attempts" class="attempts"></ul>
+    </div>
+  </div>
+
+<script>
+const promptEl = document.getElementById('prompt');
+const modelEl = document.getElementById('model');
+const routeEl = document.getElementById('route');
+const streamEl = document.getElementById('stream');
+const askEl = document.getElementById('ask');
+const statusEl = document.getElementById('status');
+const metaEl = document.getElementById('meta');
+const timerEl = document.getElementById('timer');
+const replyEl = document.getElementById('reply');
+const errorEl = document.getElementById('error');
+const attemptsEl = document.getElementById('attempts');
+
+function resetUI() {
+  replyEl.textContent = '';
+  errorEl.textContent = '';
+  attemptsEl.innerHTML = '';
+  metaEl.textContent = '—';
+  statusEl.textContent = 'Consultando...';
+  statusEl.className = 'pill';
+  timerEl.textContent = '0 ms';
+}
+
+function addAttempt(a) {
+  const li = document.createElement('li');
+  li.textContent = `${a.provider || '?'} / ${a.model || '?'} / ${a.account_id || '?'} → ${a.status || 'ok'}${a.reason ? ' — ' + a.reason : ''}`;
+  attemptsEl.appendChild(li);
+}
+
+function setMeta(meta) {
+  metaEl.textContent = `${meta.provider || '?'} · ${meta.model || '?'} · ${meta.account_id || '?'}`;
+}
+
+async function readJsonResponse(res) {
+  const data = await res.json();
+  timerEl.textContent = `${data.latency_ms ?? '?'} ms`;
+  if (data.ok) {
+    replyEl.textContent = data.reply || '';
+    statusEl.textContent = 'OK';
+    statusEl.className = 'pill ok';
+    setMeta(data);
+  } else {
+    errorEl.textContent = JSON.stringify(data.error || data, null, 2);
+    statusEl.textContent = 'ERROR';
+    statusEl.className = 'pill error';
+  }
+  (data.attempts || []).forEach(addAttempt);
+}
+
+async function readStreamResponse(res) {
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder('utf-8');
+  let buf = '';
+  let started = performance.now();
+
+  const flush = () => {
+    const parts = buf.split('\n\n');
+    buf = parts.pop() || '';
+    for (const block of parts) {
+      let event = 'message';
+      let data = '';
+      for (const line of block.split('\n')) {
+        if (line.startsWith('event:')) event = line.slice(6).trim();
+        if (line.startsWith('data:')) data += line.slice(5).trimStart();
+      }
+      if (!data) continue;
+      let payload = null;
+      try { payload = JSON.parse(data); } catch { payload = data; }
+      if (event === 'meta' && payload) {
+        setMeta(payload);
+        continue;
+      }
+      if (event === 'delta' && payload) {
+        const chunk = payload?.choices?.[0]?.delta?.content || '';
+        replyEl.textContent += chunk;
+        continue;
+      }
+      if (event === 'done' && payload) {
+        if (payload.reply && !replyEl.textContent) replyEl.textContent = payload.reply;
+        timerEl.textContent = `${payload.latency_ms ?? Math.round(performance.now() - started)} ms`;
+        statusEl.textContent = 'OK';
+        statusEl.className = 'pill ok';
+        (payload.attempts || []).forEach(addAttempt);
+        continue;
+      }
+      if (event === 'error' && payload) {
+        timerEl.textContent = `${payload.latency_ms ?? Math.round(performance.now() - started)} ms`;
+        errorEl.textContent = JSON.stringify(payload.error || payload, null, 2);
+        statusEl.textContent = 'ERROR';
+        statusEl.className = 'pill error';
+        (payload.attempts || []).forEach(addAttempt);
+      }
+    }
+  };
+
+  while (true) {
+    const {value, done} = await reader.read();
+    if (done) break;
+    buf += decoder.decode(value, {stream: true});
+    flush();
+  }
+  buf += decoder.decode();
+  flush();
+}
+
+askEl.addEventListener('click', async () => {
+  const question = promptEl.value.trim();
+  if (!question) return;
+
+  askEl.disabled = true;
+  resetUI();
+
+  const payload = {
+    model: modelEl.value.trim() || 'auto',
+    route: routeEl.value.trim() || 'auto',
+    stream: streamEl.checked,
+    messages: [{role: 'user', content: question}]
+  };
+
+  const baseUrl = (window.location.protocol === 'file:' || !window.location.host) ? 'http://127.0.0.1:8080' : '';
+
+  try {
+    const res = await fetch(`${baseUrl}/api/demo/chat`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload),
+    });
+
+    if (streamEl.checked && res.ok && res.headers.get('content-type')?.includes('text/event-stream')) {
+      await readStreamResponse(res);
+    } else {
+      await readJsonResponse(res);
+    }
+  } catch (err) {
+    let msg = String(err);
+    if (msg.includes('Failed to fetch') || msg.includes('NetworkError')) {
+      msg = `Error de conexión: No se pudo conectar al servidor proxy en http://127.0.0.1:8080.\n\n` +
+            `👉 Asegúrate de haber iniciado el servidor ejecutando 'iniciar_todo.bat'.\n` +
+            `👉 O también puedes abrir la demo directamente desde tu navegador en:\n   http://127.0.0.1:8080/demo`;
+    }
+    errorEl.textContent = msg;
+    statusEl.textContent = 'ERROR';
+    statusEl.className = 'pill error';
+  } finally {
+    askEl.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

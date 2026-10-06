@@ -1,0 +1,14 @@
+{
+  "contexto_objetivo": 150000,
+  "contexto_excluye": false,
+  "pesos": {
+    "inteligencia_aa": 24,
+    "preferencia_lmarena": 6,
+    "herramientas": 25,
+    "trabajo_agentico_lmarena": 10,
+    "trabajo_agentico_aa": 5,
+    "instrucciones": 15,
+    "contexto_util": 10,
+    "multimodal": 5
+  }
+}

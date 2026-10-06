@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Ajustar Ranking Manual (Núcleo IA)
+Comment=Herramienta interactiva para ordenar modelos en Núcleo IA
+Exec=bash -c 'cd "$(dirname "%k")" && ./ajustar_ranking_manual.sh'
+Terminal=true
+Icon=utilities-terminal
+Categories=Utility;Development;

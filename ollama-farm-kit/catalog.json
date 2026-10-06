@@ -1,0 +1,7 @@
+{
+  "models": [
+    {"name":"glm:4.6:cloud","display":"GLM 4.6 Cloud","context":131072,"tool":true,"thinking":true,"vision":false,"audio":false},
+    {"name":"gpt-oss:120b-cloud","display":"GPT-OSS 120B Cloud","context":131072,"tool":true,"thinking":true,"vision":false,"audio":false},
+    {"name":"kimi-k2.5:cloud","display":"Kimi K2.5 Cloud","context":131072,"tool":true,"thinking":true,"vision":true,"audio":false}
+  ]
+}

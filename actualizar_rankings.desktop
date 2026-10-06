@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Actualizar rankings — Núcleo IA
+Comment=Descubre, prueba y muestra los rankings de todos los proveedores
+Exec=env IN_TERMINAL=1 bash ./actualizar_rankings.sh
+Path=.
+Terminal=true
+Icon=utilities-terminal
+Categories=Utility;
+StartupNotify=true

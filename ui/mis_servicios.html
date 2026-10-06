@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mis servicios — Núcleo IA</title><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/shell.css"><script src="/app.js" defer></script>
+</head>
+<body>
+<header class="topbar"><a href="/control" class="brand" id="brand"><span class="brand-mark">N</span><span class="brand-text">NÚCLEO <b>IA</b></span></a><span class="local-badge"><span class="dot"></span> En tu computadora <span id="os"></span></span></header>
+<main>
+<nav class="control-nav" aria-label="Secciones del Centro de control"><a href="/control">Resumen</a><a href="/mis-servicios" class="active" aria-current="page">Servicios y cuentas</a><a href="/rankings">Rankings</a><a href="/trasladar-cuentas">Trasladar cuentas</a><a href="/acerca">Acerca de</a></nav>
+<section id="inicio">
+<div class="eyebrow">TUS CONEXIONES, EN UN SOLO LUGAR</div>
+<div class="intro"><div><h1>Mis servicios</h1><p class="lead">Elegí un servicio. Te acompañamos paso a paso<br class="desktop"> para conectarlo con Núcleo IA.</p></div><div class="summary"><strong id="count">—</strong><span>servicios con<br>cuentas guardadas</span></div></div>
+<div class="welcome"><div class="welcome-icon">1</div><div><strong>¿Es tu primera vez?</strong><p>Conectá un solo servicio para empezar. No necesitás configurar los doce.</p></div><button class="text-btn" id="help-general">Cómo funciona <span aria-hidden="true">↗</span></button></div>
+<div class="profile-strip"><div><span class="profile-dot" id="profile-dot"></span><strong id="profile-name">Modo Personal</strong><p id="profile-summary">Acceso local sencillo en esta computadora.</p></div><button class="secondary" id="profile-open">Cambiar modo</button></div>
+<div class="section-line"><h2>Servicios generales</h2><span>Servicios generales y conexiones especiales · Windows y Linux</span></div>
+<div class="grid" id="cards"></div>
+<div class="section-line optional-section-line"><h2>Proveedores opcionales</h2><span>API de pago y capacidades adicionales · desactivados por defecto</span></div>
+<div class="grid" id="optional-cards"></div>
+<div class="apply-bar"><div><strong>¿Terminaste de conectar tus cuentas?</strong><p>Aplicá las conexiones para que Núcleo IA las cargue.</p></div><button class="primary" id="apply-home">Aplicar conexiones <span aria-hidden="true">→</span></button></div>
+</section>
+<section id="wizard" hidden aria-labelledby="wizard-title">
+<button class="text-btn back" id="back">← Volver a Mis servicios</button>
+<div class="wizard-head"><div class="service-icon" id="wizard-icon"></div><div><div class="eyebrow">CONECTAR UN SERVICIO</div><h1 id="wizard-title" tabindex="-1"></h1></div></div>
+<ol class="steps" aria-label="Pasos de conexión"><li id="step-1">1 <span>Tu cuenta</span></li><li id="step-2">2 <span>Conexión</span></li><li id="step-3">3 <span>Resultado</span></li></ol>
+<div class="wizard-columns"><div class="panel" id="wizard-main"></div><aside class="help-panel"><span class="eyebrow">TE ACOMPAÑAMOS</span><h2>Sin apuro,<br>paso a paso.</h2><p>La página del servicio se abre aparte. Esta pestaña queda acá para ayudarte a continuar.</p><p>Tu correo, contraseña y códigos de verificación se completan en la página oficial del servicio.</p><div class="notice-inline"><strong>⚠️ Cuidado con la cuenta activa:</strong> Si en tu navegador ya tenías abierta una sesión con otro mail, acordate de cerrarla (Log out) y asegurarte de haber iniciado con el mail de la cuenta que querés agregar antes de copiar tu clave.</div><div id="service-specific-help"></div><button id="help-service" class="secondary">Necesito ayuda</button><button id="later" class="text-btn">Continuar después</button></aside></div>
+</section>
+<div id="notice" role="status" aria-live="polite" hidden></div>
+<footer><span><span class="dot"></span> Asistente local de Núcleo IA</span><span>Las claves se guardan en esta computadora.</span></footer>
+</main>
+<dialog id="help-dialog"><div class="dialog-top"><h2>Te ayudamos a continuar</h2><button id="close-help" class="icon-btn" aria-label="Cerrar ayuda">×</button></div><div id="help-content"></div></dialog>
+<dialog id="profile-dialog"><div class="dialog-top"><h2>Modo de uso</h2><button id="profile-close" class="icon-btn" aria-label="Cerrar">×</button></div><p>Personal simplifica el uso en una computadora. Profesional protege por separado el uso y la administración.</p><label for="profile-select">Elegí el modo</label><select id="profile-select"><option value="personal">Personal</option><option value="profesional">Profesional</option></select><div id="professional-options" hidden><label class="key-reveal"><input type="checkbox" id="profile-network"> Permitir acceso desde otros equipos de la red</label><div id="network-options" hidden><label for="profile-hosts">Direcciones o nombres autorizados</label><input id="profile-hosts" placeholder="Por ejemplo: nucleo.oficina.local, 192.168.1.20"><small>Separalos con comas. No se permite usar *.</small><label for="profile-origins">Sitios web autorizados (opcional)</label><input id="profile-origins" placeholder="Por ejemplo: https://panel.oficina.local"><small>Cada dirección debe comenzar con http:// o https://.</small></div><div class="notice-inline">El modo Profesional crea credenciales diferentes para usar modelos y administrar el sistema. Las claves nunca se muestran en esta pantalla.</div></div><div id="profile-warnings"></div><div class="actions"><button class="primary" id="profile-save">Guardar y aplicar al reiniciar</button><button class="secondary" id="profile-cancel">Cancelar</button></div></dialog>
+<datalist id="lista-emails-conocidos"></datalist>
+<noscript>Activá JavaScript en tu navegador para usar el asistente.</noscript>
+</body></html>
